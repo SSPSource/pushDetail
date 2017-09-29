@@ -15,6 +15,8 @@
 		84A534BF1F7DE6E8008909A0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A534BE1F7DE6E8008909A0 /* main.m */; };
 		84A534C91F7DE6E8008909A0 /* VoipTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A534C81F7DE6E8008909A0 /* VoipTestTests.m */; };
 		84A534D41F7DE6E8008909A0 /* VoipTestUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A534D31F7DE6E8008909A0 /* VoipTestUITests.m */; };
+		84A534E31F7DE90A008909A0 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A534E21F7DE90A008909A0 /* PushKit.framework */; };
+		84A534E51F7DE91B008909A0 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A534E41F7DE91B008909A0 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,9 @@
 		84A534CF1F7DE6E8008909A0 /* VoipTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoipTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A534D31F7DE6E8008909A0 /* VoipTestUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoipTestUITests.m; sourceTree = "<group>"; };
 		84A534D51F7DE6E8008909A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84A534E21F7DE90A008909A0 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
+		84A534E41F7DE91B008909A0 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		84A534E71F7DF387008909A0 /* VoipTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoipTest.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +63,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84A534E51F7DE91B008909A0 /* UserNotifications.framework in Frameworks */,
+				84A534E31F7DE90A008909A0 /* PushKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +92,7 @@
 				84A534C71F7DE6E8008909A0 /* VoipTestTests */,
 				84A534D21F7DE6E8008909A0 /* VoipTestUITests */,
 				84A534AD1F7DE6E8008909A0 /* Products */,
+				84A534E11F7DE90A008909A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +109,7 @@
 		84A534AE1F7DE6E8008909A0 /* VoipTest */ = {
 			isa = PBXGroup;
 			children = (
+				84A534E71F7DF387008909A0 /* VoipTest.entitlements */,
 				84A534AF1F7DE6E8008909A0 /* AppDelegate.h */,
 				84A534B01F7DE6E8008909A0 /* AppDelegate.m */,
 				84A534B21F7DE6E8008909A0 /* ViewController.h */,
@@ -130,6 +139,15 @@
 				84A534D51F7DE6E8008909A0 /* Info.plist */,
 			);
 			path = VoipTestUITests;
+			sourceTree = "<group>";
+		};
+		84A534E11F7DE90A008909A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				84A534E41F7DE91B008909A0 /* UserNotifications.framework */,
+				84A534E21F7DE90A008909A0 /* PushKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +218,14 @@
 					84A534AB1F7DE6E8008909A0 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					84A534C31F7DE6E8008909A0 = {
 						CreatedOnToolsVersion = 9.0;
@@ -370,7 +396,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -419,7 +445,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -430,11 +456,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VoipTest/VoipTest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6S33422B35;
 				INFOPLIST_FILE = VoipTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.keisdom.VoipTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.keisdom.voipTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -444,11 +472,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VoipTest/VoipTest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6S33422B35;
 				INFOPLIST_FILE = VoipTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.keisdom.VoipTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.keisdom.voipTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
