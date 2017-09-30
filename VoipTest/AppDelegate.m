@@ -21,7 +21,62 @@
    [self registerPushKit];
     return YES;
 }
-#pragma mark - 普通推送
+#pragma mark - 本地推送
+-(void)createAction{
+    if (@available(iOS 10.0, *)) {
+        UNNotificationAction *action = [UNNotificationAction actionWithIdentifier:@"reply" title:@"Reply" options:UNNotificationActionOptionNone];
+        UNNotificationAction *action2 = [UNNotificationAction actionWithIdentifier:@"reply" title:@"Reply2" options:UNNotificationActionOptionNone];
+        
+        UNNotificationCategory *category=[UNNotificationCategory categoryWithIdentifier:@"message" actions:@[action,action2] intentIdentifiers:@[@"idid"] options:UNNotificationCategoryOptionCustomDismissAction];
+        //        if (@available(iOS 11.0, *)) {
+        //            UNNotificationCategory *category2=[UNNotificationCategory categoryWithIdentifier:@"message2" actions:@[action] intentIdentifiers:@[@"idid"] hiddenPreviewsBodyPlaceholder:@"ddddd" options:UNNotificationCategoryOptionCustomDismissAction];
+        //        } else {
+        //            // Fallback on earlier versions
+        //        }
+        
+        
+        
+    } else {
+        // Fallback on earlier versions
+    }
+}
+
+-(void)locationPush{
+    //2 分钟后提醒
+    if (@available(iOS 10.0, *)) {
+        
+        UNNotificationAction *action = [UNNotificationAction actionWithIdentifier:@"reply" title:@"Reply" options:UNNotificationActionOptionNone];
+        UNNotificationAction *action2 = [UNNotificationAction actionWithIdentifier:@"reply" title:@"Reply2" options:UNNotificationActionOptionNone];
+        
+        UNNotificationCategory *category=[UNNotificationCategory categoryWithIdentifier:@"message" actions:@[action,action2] intentIdentifiers:@[@"idid"] options:UNNotificationCategoryOptionCustomDismissAction];
+        
+        NSString *requestIdentifier = @"sampleRequest";
+        
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        UNTimeIntervalNotificationTrigger *trigger1 = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:30 repeats:NO];
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+        content.title = @"Introduction to Notifications";
+        content.subtitle = @"Session 707";
+        content.body = @"Woah! These new notifications look amazing! Don’t you agree?";
+        content.badge = @1;
+        content.categoryIdentifier=@"message";
+        
+        [center setNotificationCategories:[NSSet setWithArray:@[category]]];
+        
+        UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:requestIdentifier
+                                                                              content:content
+                                                                              trigger:trigger1];
+        [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+            
+        }];
+        
+        
+    } else {
+        // Fallback on earlier versions
+    }
+    
+}
+#pragma mark - 远程推送
 -(void)registerPushDemo:(UIApplication *)application{
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
         //iOS10特有
@@ -56,7 +111,10 @@
     }
     // 注册获得device Token
     [[UIApplication sharedApplication] registerForRemoteNotifications];
+    [self createAction];
 }
+
+//此方法不确定需不需要
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings{
     [application registerForRemoteNotifications];//必须先实现这个方法，才会走下面的方法
 }
@@ -78,21 +136,8 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"====%s===",__func__);
-   
     NSLog(@"iOS6及以下系统，收到通知:%@",userInfo );
-    //        self.userInfo = userInfo;
-    //定制自定的的弹出框
-    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
-    {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"标题"
-//                                                            message:@"Test On ApplicationStateActive"
-//                                                           delegate:self
-//                                                  cancelButtonTitle:@"确定"
-//                                                  otherButtonTitles:nil];
-//
-//        [alertView show];
-        
-    }
+   
 }
 #ifdef NSFoundationVersionNumber_iOS_10_x_Max
 //iOS10新增：处理前台收到通知的代理方法
@@ -142,7 +187,8 @@
 didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
 }
-#pragma mark - pushkit
+
+#pragma mark - pushkit  PKPushRegistryDelegate
 
 -(void)registerPushKit{
    NSLog(@"====registerPushKit===");
@@ -151,9 +197,6 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     pushRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
  
 }
-
-
-
 
 - (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(NSString *)type{
     NSString *str = [NSString stringWithFormat:@"%@",credentials.token];
@@ -172,7 +215,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"===%s===",__func__);
 }
 
-
+#pragma mark - 生命周期
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

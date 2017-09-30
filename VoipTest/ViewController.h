@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ViewController : UIViewController
+#import <UserNotifications/UserNotifications.h>
+@interface ViewController : UIViewController<UNUserNotificationCenterDelegate>
 
 
 @end
