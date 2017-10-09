@@ -19,7 +19,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     UIButton *btn=[[UIButton alloc] initWithFrame:CGRectMake(100, 200, 100, 60)];
     [btn setBackgroundColor:[UIColor redColor]];
-    [btn addTarget:self action:@selector(locationPush) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(locationPushIOS10) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
 }
 -(void)LocalNotificationIOS8{

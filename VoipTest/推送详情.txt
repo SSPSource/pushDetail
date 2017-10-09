@@ -1,0 +1,29 @@
+推送详情：
+一.推送
+iOS 推送分为 Local Notifications（本地推送） 和 Remote Notifications（远程推送）
+1.本地推送
+2.远程推送
+3.静默推送
+4.pushKit 推送
+5.Notification Service Extension（项目中target：pushEXTest和medi）
+6.Notification Content Extension（项目中target：pushcontentPush）
+
+一.静默推送
+设置:
+1.发送时:推送内容中设置”content-available”:1
+2.接收时:使用iOS7新API接收通知
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+
+注意: 使用后台推送通知,需要设置后台模式(Target -->Capabilities -->Background Modes下勾选Remote notifications)
+
+静默通知
+在后台执行远程通知的条件前提下,如果通知内容不包括任何声音&提醒&角标设置,则可以在完全不打扰用户的情况下进行后台内容更新.
+
+后台推送的特点
+1.自动执行必须是应用已经开启的前提下(无论前后台)
+2.在应用程序挂起之前有30秒左右可以执行工作。
+后台推送不是用于CPU频繁工作或者长时间运行任务，而是用来处理长时间运行的网络请求队列(NSURLSession,系统的全局任务)，例如下载一部很大的电影，或者执行快速的内容更新(网络拉取数据并更新后,使用presentLocalNote发送本地通知,进入App时已经更新完数据)。
+3.静默的推送通知有速度限制
+苹果推送服务根据后台推送任务的能耗(用电量,接收情况)来控制后台推送的推送频率和延迟时间。
+不同于iOS8本地通知的回调仅用于更新快照,iOS7接收方法中的回调还是系统对后台通知任务的评估依据.
+
